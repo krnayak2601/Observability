@@ -11,3 +11,4 @@ Additonal configurations to-do if you liek to have handson session on an EC2
 
 Summary Metric:
 1. In this example(summary.py) the metric calculates response time i.e. difference between end and start time
+2. To calculate avg latency using this divide rate of latency sum by rate of latency by count
