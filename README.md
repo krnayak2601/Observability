@@ -4,9 +4,20 @@ Attended handson session from Udemy : https://amdocsglobal.udemy.com/course/prom
 This course gives a clear picture for beginners on Promethues
 
 I created an EC2 instance from AWS for my handson session
-
 Additonal configurations to-do if you like to have handson session on an EC2
-1. Create inbound rules in security group of EC2 to access all the UI - Promethues, PythonApp for Gauge,Counter etc metrics, Node Exporter
+1. Create inbound rules in security group of EC2 to access all the UI - Promethues, PythonApp for Gauge,Counter etc metrictypes, Node Exporter
+
+
+Folder : 
+1. Node Exporter conatins exporter for linux machine
+2. prom_python_app contains a simple python application and sample to instrument it to get each metric
+
+
+
+
+
+
+
 
 
 Summary Metric:
