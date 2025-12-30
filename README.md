@@ -5,7 +5,7 @@ This course gives a clear picture for beginners on Promethues
 
 I created an EC2 instance from AWS for my handson session
 
-Additonal configurations to-do if you liek to have handson session on an EC2
+Additonal configurations to-do if you like to have handson session on an EC2
 1. Create inbound rules in security group of EC2 to access all the UI - Promethues, PythonApp for Gauge,Counter etc metrics, Node Exporter
 
 
