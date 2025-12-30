@@ -9,7 +9,7 @@ Additonal configurations to-do if you like to have handson session on an EC2
 
 
 Folder : 
-1. Node Exporter conatins exporter for linux machine
+1. Node Exporter contains exporter for linux machine
 2. prom_python_app contains a simple python application and sample to instrument it to get each metric
 
 
