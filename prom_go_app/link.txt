@@ -1,0 +1,2 @@
+Package link to install GoLang : requirement is to have golan 1.9 or higher
+https://go.dev/doc/install
