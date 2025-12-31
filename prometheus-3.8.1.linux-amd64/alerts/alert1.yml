@@ -1,0 +1,21 @@
+groups:
+  - name: example_alerts
+    rules:
+      - alert: NodeExporterDown
+        expr: up{job="node_exporter"} == 0
+
+      - alert: AppLatencyAbove5sec
+        expr: job:app_response_latency_seconds:rate1m >= 5
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Python app latency is over 5 seconds.'
+          description: 'App latency of instance {{ $labels.instance }} of job {{ $labels.job }} is {{ $value }} seconds for more than 5 minutes.'
+          app_link: 'http://localhost:8000/'
+
+      - alert: AppLatencyAbove2sec
+        expr: 2 < job:app_response_latency_seconds:rate1m < 5
+        for: 2m
+        labels:
+          severity: warning

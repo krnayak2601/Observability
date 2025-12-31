@@ -26,26 +26,28 @@ I created an EC2 instance from AWS for my hands-on session.
 ## Project Structure
 
 ### Folders
+1. **prometheus-3.8.1.linux-amd64**: Contains Prometheus server and configuration. Download package from link https://github.com/prometheus/prometheus
+   - Prometheus UI: `http://localhost:9090`
+   - Configuration: `prometheus.yml`
 
-1. **node_exporter-1.10.2.linux-amd64**: Contains the Node Exporter for Linux machines
+2. **node_exporter-1.10.2.linux-amd64**: Contains the Node Exporter for Linux machines
    - Port: 9100
    - Access: `http://localhost:9100/metrics`
 
-2. **prom_python_app**: Contains simple Python applications with client libraries to instrument Python applications for each metric type
+3. **prom_python_app**: Contains simple Python applications with client libraries to instrument Python applications for each metric type
    - Counter: `counter.py` (port 8001)
    - Gauge: `gauge.py` (port 2001)
    - Histogram: `histogram.py`
    - Summary: `summary.py` (port 3001)
 
-3. **prom_go_app**: Contains Go applications with Prometheus client libraries demonstrating different metric types
+4. **prom_go_app**: Contains Go applications with Prometheus client libraries demonstrating different metric types
    - Counter: `counter.go` (port 5000)
    - Gauge: `gauge.go` (port 6000)
    - Histogram: `histogram.go` (port 7000)
    - Summary: `summary.go` (port 9000)
 
-4. **prometheus-3.8.1.linux-amd64**: Contains Prometheus server and configuration
-   - Prometheus UI: `http://localhost:9090`
-   - Configuration: `prometheus.yml`
+5. **alertmanager**: Contains alert manger confuguration. Donwload from link:https://github.com/prometheus/alertmanager
+
 
 ## Port Mappings
 
@@ -60,7 +62,7 @@ I created an EC2 instance from AWS for my hands-on session.
 | Go Gauge | 6000 | `http://localhost:6000/birthday/{name}` |
 | Go Histogram | 7000 | `http://localhost:7000/birthday/{name}` |
 | Go Summary | 9000 | `http://localhost:9000/birthday/{name}` |
-
+| AlertManager | 9093 | `http://localhost:99093/birthday/{name}` |
 All applications expose metrics at `/metrics` endpoint.
 
 ## Setup Instructions
@@ -193,7 +195,50 @@ Within each service, we have libraries.
 1. **Heavy Libraries**: Track internal errors and latency time within the library
 2. **External Access Libraries**: Track query count and latency when the library is used to access outside information
 
+### Rules 
+There are two types of rules in Prometheus: **Recording Rules** and **Alerting Rules**.
 
+#### Recording Rules
+- **Purpose**: Precompute commonly used expressions and save results in new time series.
+- Go through prometheus-3.8.1.linux-amd64/rules/rule1.yml to view sample rules created
+- **Implementation**:
+  - Written in a separate rule file in YAML format.
+  - Write a PromQL expression to evaluate regularly.
+  - Give each record a name; instead of using the full PromQL, one can use the name.
+  - Feed the file to Prometheus service via `prometheus.yml` configuration.
+  - Prometheus will evaluate regularly after a specified time interval and store as a new time series and metric name in its storage engine.
+- **Benefits**: 
+  - Faster execution
+  - Useful in speeding up dashboards
+  - Can be used by anyone using APIs
+  - Reduces load on Prometheus query engine
+
+#### Alerting Rules
+- **Purpose**: Define conditions that should trigger alerts based on metric values.
+- **Implementation**:
+  - Run ./alertmanager to bring up the UI on port 9093
+  - Define logic in the form of PromQL expressions to evaluate continuously.
+  - When conditions are met, they become alerts.
+  - Example: CPU usage should not be more than 90%.
+  - Written in YAML format (similar to recording rules).
+  - Each alert has:
+    - **Alert name**: Unique identifier for the alert
+    - **Expr**: PromQL expression that evaluates to true when alert should fire
+    - **For**: Duration the condition must be true before alert fires (optional)
+    - **Labels**: Additional labels to attach to the alert (e.g., severity, team)
+    - **Annotations**: Human-readable information about the alert (summary, description)
+  - Feed the file to Prometheus service via `prometheus.yml` configuration.
+  - Prometheus evaluates alerts regularly and sends them to Alertmanager when conditions are met.
+- **Alertmanager Integration**:
+  - Prometheus sends alerts to Alertmanager service.
+  - Alertmanager handles routing, grouping, silencing, and notification of alerts.
+  - Supports multiple notification channels (email, Slack, PagerDuty, webhooks, etc.).
+- **Benefits**:
+  - Proactive monitoring and issue detection
+  - Centralized alert management
+  - Alert grouping and deduplication
+  - Flexible notification routing
+  - Reduces alert fatigue through intelligent grouping
 
 
 
