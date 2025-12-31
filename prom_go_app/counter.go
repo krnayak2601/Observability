@@ -10,11 +10,12 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
 
-var
+var (
 	REQUEST_COUNT = promauto.NewCounter(prometheus.CounterOpts{
 		Name: "go_app_requests_count",
 		Help: "Total App HTTP Requests count.",
 	})
+)
 
 func main() {
 	// Start the application

@@ -11,11 +11,12 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
 
-var
+var (
 	REQUEST_INPROGRESS = promauto.NewGauge(prometheus.GaugeOpts{
 		Name: "go_app_requests_inprogress",
 		Help: "Number of application requests in progress",
 	})
+)
 
 func main() {
 	// Start the application
@@ -37,5 +38,5 @@ func startMyApp() {
 
 	log.Println("Starting the application server...")
 	router.Path("/metrics").Handler(promhttp.Handler())
-	http.ListenAndServe(":8000", router)
+	http.ListenAndServe(":6000", router)
 }

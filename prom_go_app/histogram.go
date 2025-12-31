@@ -11,11 +11,12 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
 
-var 
+var (
 	REQUEST_RESPOND_TIME = promauto.NewHistogramVec(prometheus.HistogramOpts{
 		Name: "go_app_response_latency_seconds",
 		Help: "Response latency in seconds.",
 	}, []string{"path"})
+)
 
 
 func routeMiddleware(next http.Handler) http.Handler {
@@ -40,6 +41,8 @@ func main() {
 
 func startMyApp() {
 	router := mux.NewRouter()
+	router.Use(routeMiddleware)
+	
 	router.HandleFunc("/birthday/{name}", func(rw http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		name := vars["name"]
@@ -47,11 +50,9 @@ func startMyApp() {
 
 		time.Sleep(2 * time.Second)
 		rw.Write([]byte(greetings))
-
 	}).Methods("GET")
 
-	router.Use(routeMiddleware)
 	log.Println("Starting the application server...")
 	router.Path("/metrics").Handler(promhttp.Handler())
-	http.ListenAndServe(":8000", router)
+	http.ListenAndServe(":7000", router)
 }
