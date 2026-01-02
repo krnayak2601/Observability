@@ -248,7 +248,7 @@ Alertmanager uses the concept of **routing** to determine how alerts are process
 - A `routes:` list allows you to define specific matching rules based on alert labels (like `severity`, `app_type`, etc.).
 - Each route can specify its own `receiver` and can have sub-routes for more detailed label matching.
 
-Go throgh alertmanager.yml
+Go through alertmanager.yml
 In this structure:
 - All alerts first check if `app_type` matches "linux" or "windows"; they go to `ss-admin`.
 - Then, based on `app_type` label, alerts get routed to either the `linux-admin` or `windows-admin` receiver.
