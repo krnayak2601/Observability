@@ -240,6 +240,24 @@ There are two types of rules in Prometheus: **Recording Rules** and **Alerting R
   - Flexible notification routing
   - Reduces alert fatigue through intelligent grouping
 
+##### Routing Alerts
+Alertmanager uses the concept of **routing** to determine how alerts are processed and sent to the right receiver depending on their labels. The routing tree is defined in `alertmanager.yml` under the `route:` section.
+
+**How Routing Works:**
+- The top-level `receiver` specifies the default receiver if no routes match.
+- A `routes:` list allows you to define specific matching rules based on alert labels (like `severity`, `app_type`, etc.).
+- Each route can specify its own `receiver` and can have sub-routes for more detailed label matching.
+
+Go throgh alertmanager.yml
+In this structure:
+- All alerts first check if `app_type` matches "linux" or "windows"; they go to `ss-admin`.
+- Then, based on `app_type` label, alerts get routed to either the `linux-admin` or `windows-admin` receiver.
+- Within that, there's further routing by `severity`: "critical" alerts are sent to the manager, and "warning" alerts to the lead.
+
+This allows fine control over how alerts are delivered based on their meaning and scope, keeping teams focused and notifications relevant.
+
+
+
 
 
 
