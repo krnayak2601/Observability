@@ -256,6 +256,20 @@ In this structure:
 
 This allows fine control over how alerts are delivered based on their meaning and scope, keeping teams focused and notifications relevant.
 
+###### BlackBox Exporter 
+link to package: https://github.com/prometheus/blackbox_exporter. Runs default at 9115 port
+  - Probing exporter used to monitor network endpints like http/s, dns, icmp or tcp
+  - This exporter returns detailed metrics about requests
+  - Usecase : No knowlegde of sytem internels, respose time, DNS response time to check n/w latency issues, availability of service, n/w health etc
+  - /metrics contains the blackbox metrics and /probe contains target metrics
+
+###### Grafana
+ - For external dashboards
+ - Link : https://grafana.com/grafana/download, default port 3000
+ - Add promethues as its data source
+
+
+
 
 
 
