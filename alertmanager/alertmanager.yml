@@ -1,12 +1,71 @@
+global:
+  smtp_from: 'example@gmail.com'
+  smtp_smarthost: smtp.gmail.com:587
+  smtp_auth_username: 'example@gmail.com'
+  smtp_auth_identity: 'example@gmail.com'
+  smtp_auth_password: 'fqkvkumorgaqgkat'
+
 route:
+  # fallback receiver
   receiver: admin
+  routes:
+    # Star Solutions.
+    - match_re:
+        app_type: (linux|windows)
+      # fallback receiver 
+      receiver: ss-admin
+      routes:
+        - match:
+            app_type: linux
+          receiver: linux-admin
+          routes:
+            - match:
+                severity: critical
+              receiver: linux-manager
+            - match:
+                severity: warning
+              receiver: linux-lead
+        - match:
+            app_type: windows
+          receiver: windows-admin
+          routes:
+            - match:
+                severity: critical
+              receiver: windows-manager
+            - match:
+                severity: warning
+              receiver: windows-lead
+
 
 receivers:
 - name: admin
   email_configs:
   - to: 'example@gmail.com'
-    from: 'example@gmail.com'
-    smarthost: smtp.gmail.com:587
-    auth_username: 'example@gmail.com'
-    auth_identity: 'example@gmail.com'
-    auth_password: 'fqkvkumorgaqgkat'
+
+- name: ss-admin
+  email_configs:
+  - to: 'example@gmail.com'
+
+- name: linux-admin
+  email_configs:
+  - to: 'example@gmail.com'
+
+- name: linux-manager
+  email_configs:
+  - to: 'example@gmail.com'
+
+- name: linux-lead
+  email_configs:
+  - to: 'example@gmail.com'
+
+- name: windows-admin
+  email_configs:
+  - to: 'example@gmail.com'
+
+- name: windows-manager
+  email_configs:
+  - to: 'example@gmail.com'
+
+- name: windows-lead
+  email_configs:
+  - to: 'example@gmail.com' 
