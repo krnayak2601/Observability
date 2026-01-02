@@ -15,6 +15,9 @@ alerting:
 rule_files:
    - "rules/rule1.yml"
    - "alerts/alert1.yml"
+   - "alerts/linux_alerts.yml"
+   - "alerts/win_alerts.yml"
+   - "alerts/web_alerts.yml"
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
