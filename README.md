@@ -263,10 +263,25 @@ link to package: https://github.com/prometheus/blackbox_exporter. Runs default a
   - Usecase : No knowlegde of sytem internels, respose time, DNS response time to check n/w latency issues, availability of service, n/w health etc
   - /metrics contains the blackbox metrics and /probe contains target metrics
 
+###### Push Gateway
+Link: https://github.com/prometheus/pushgateway, runs on port 9091 by default
+ - Push gateway is metrics cache for service level batch jobs
+  - Used to handle exposition of metrics that have been pushed from short lived jobs like cron or batch.
+- API used to push metrics in this gateway:
+  ```
+  http://<pushgatewayhost>:<port>/metrics/job/<job_name>/[<label_name>/<label_value>]/[<label_name1>/<label_value1>]/..../[<label_name_N>/<label_value_N>]
+  ```
+- Link for python pushgateway: https://github.com/prometheus/client_python#exporting-to-a-pushgateway
+  - Drawbacks: Availability, Manual Deletion, auto instance health monitoring is via up metric
+- You can push using the command below:
+  ```bash
+  echo "demo_metric 123" | curl --data-binary @- http://localhost:9091/metrics/job/demo_pg_job/instance/demo_instance/event/add
+  ```
+
 ###### Grafana
  - For external dashboards
- - Link : https://grafana.com/grafana/download, default port 3000
- - Add promethues as its data source
+ - Link: https://grafana.com/grafana/download, default port 3000
+ - Add Prometheus as its data source
 
 
 
