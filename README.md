@@ -277,11 +277,18 @@ Link: https://github.com/prometheus/pushgateway, runs on port 9091 by default
   ```bash
   echo "demo_metric 123" | curl --data-binary @- http://localhost:9091/metrics/job/demo_pg_job/instance/demo_instance/event/add
   ```
+###### Service Discovery
+- Auto discover and monitor targets
+- Built-in integration for service discovery systems like k8s, consul, cloud providers - Amazon EC2 and Azure
+- File-based service discovery mechanism allows to list all targets in service info JSON file
+- Two types: top-down and bottom-up
 
 ###### Grafana
  - For external dashboards
  - Link: https://grafana.com/grafana/download, default port 3000
  - Add Prometheus as its data source
+
+
 
 
 
